@@ -1,0 +1,59 @@
+service: graphql-group-gifts
+
+frameworkVersion: '>=2.0.0'
+
+provider:
+  name: aws
+  runtime: ${env:NODE_VERSION}
+  stage: ${env:STAGE}
+  stackName: ${env:STACK_NAME}
+  lambdaHashingVersion: '20201221'
+  deploymentBucket:
+    name: ${env:S3_BUCKET}
+  timeout: 5
+  logRetentionInDays: 2
+  environment:
+    STAGE: ${env:STAGE}
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    useChildProcesses: true
+  webpack:
+    webpackConfig: webpack/webpack.${env:WEBPACK_CONFIG}.js
+    packager: yarn
+    keepOutputDirectory: true
+    stats: minimal
+
+functions:
+  GraphQl:
+    memorySize: 1024
+    handler: lambdas/graphql-api/index.handler
+    name: OnlineStoreGraphQL-${env:STAGE}
+    description: GraphQL API for Online Shop
+    role: GraphQL
+    events:
+      - http:
+          path: /graphql
+          method: post
+          cors: true
+  
+resources:
+  Resources:
+    # IAM
+    GraphQL:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: online-shop-graphql-api-${env:STAGE}
+        AssumeRolePolicyDocument:
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action: 'sts:AssumeRole'
+        ManagedPolicyArns:
+          - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole

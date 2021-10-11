@@ -1,0 +1,22 @@
+# dependencies
+node_modules
+
+# next.js
+.next/
+
+# output
+out
+build
+.webpack
+.serverless
+
+# misc
+.DS_Store
+
+# debug
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env.local
+

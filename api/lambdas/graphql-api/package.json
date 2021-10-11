@@ -1,0 +1,23 @@
+{
+  "name": "main-api",
+  "private": true,
+  "scripts": {
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/pg": "^7.14.11",
+    "@types/uuid": "^8.3.1",
+    "aws-sdk": "^2.722.0",
+    "typescript": "^4.0.3"
+  },
+  "dependencies": {
+    "@caldwell619/common-aws-actions": "^0.0.15",
+    "fuse.js": "^6.4.6",
+    "graphql": "^15.3.0",
+    "graphql-scalars": "^1.10.1",
+    "node-cache": "^5.1.2",
+    "pg": "^8.6.0",
+    "postgres-array": "^3.0.1",
+    "uuid": "^8.3.2"
+  }
+}
