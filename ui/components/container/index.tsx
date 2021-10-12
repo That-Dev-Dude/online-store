@@ -57,9 +57,10 @@ export const subRootSpacing = 3
 interface RowProps {
   isOffColor?: boolean
   title?: string
+  id?: string
 }
-export const Row: FC<RowProps> = ({ isOffColor, title, children }) => (
-  <Root isOffColor={isOffColor}>
+export const Row: FC<RowProps> = ({ isOffColor, title, id, children }) => (
+  <Root isOffColor={isOffColor} id={id}>
     <SubRoot container spacing={subRootSpacing}>
       <Grid item xs={12}>
         {title ? <RowTitle>{title}</RowTitle> : null}

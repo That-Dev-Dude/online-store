@@ -10,8 +10,10 @@ import Layout from 'components/layout'
 import SlideShow from 'components/slide-show'
 import { ProductImage as ProductImageBase, ProductImageProps } from 'features/products/components/QuickViewProduct'
 import { OptionsSelect } from 'features/products/components/OptionSelect'
+import Review from 'features/products/components/Review'
+import Description from 'features/products/components/Description'
 
-const Product: FC<Props> = ({ product: { title, images, reviews, options, price } }) => {
+const Product: FC<Props> = ({ product: { title, images, reviews, options, price, description } }) => {
   const overallRating = calculateStarRating(reviews)
   return (
     <Layout noPadding title={title}>
@@ -32,18 +34,36 @@ const Product: FC<Props> = ({ product: { title, images, reviews, options, price 
           <Typography color='text.primary'>{title}</Typography>
         </Breadcrumbs>
         <h1 style={{ margin: 0 }}>{title}</h1>
-        <div style={{ marginBottom: '30px', display: 'flex', alignItems: 'center' }}>
-          <Rating value={overallRating} readOnly />
-          <div style={{ padding: '3px 0 0 10px' }}>{reviews.length} Reviews</div>
-        </div>
+        <a href='#reviews'>
+          <div style={{ marginBottom: '30px', display: 'flex', alignItems: 'center' }}>
+            <Rating value={overallRating} readOnly />
+            <div style={{ padding: '3px 0 0 10px' }}>{reviews.length} Reviews</div>
+          </div>
+        </a>
         <div>
           <OptionsSelect options={options} />
         </div>
         <div>
-          <Button fullWidth variant='contained'>
+          <Button
+            sx={{
+              marginTop: ({ spacing }) => spacing(3),
+              color: ({ palette }) => palette.background.default,
+              fontWeight: 700,
+            }}
+            fullWidth
+            variant='contained'
+          >
             Add to Cart ( ${price} ){' '}
           </Button>
         </div>
+      </Row>
+      <Row isOffColor title='Description'>
+        {description}
+      </Row>
+      <Row title='Reviews' id='reviews'>
+        {reviews.map(review => (
+          <Review key={review.id} {...review} />
+        ))}
       </Row>
     </Layout>
   )

@@ -39,7 +39,7 @@ export const products: Product[] = [
           },
           {
             id: 'brown',
-            option: 'brown',
+            option: '#A17056',
             description: 'Cognac',
           },
           {

@@ -3,6 +3,10 @@
   src: url(./JosefinSans-Regular.ttf);
 }
 
+body {
+  font-size: 20px !important;
+}
+
 * {
   font-family: Main !important;
 }
