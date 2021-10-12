@@ -32,7 +32,7 @@ const SlideShow = function <TData>({ list, chunkLimit, slideInterval, RenderComp
         enableMouseEvents
       >
         {reviewChunks.map((chunks, index) => (
-          <Grid container spacing={6} key={`chunk[${index}]`}>
+          <Grid container spacing={3} key={`chunk[${index}]`}>
             {chunks.map((chunk, chunkIndex) => (
               <RenderComponent key={`sub-chunk=${chunkIndex}`} {...chunk} />
             ))}

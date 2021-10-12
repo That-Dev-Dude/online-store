@@ -77,7 +77,7 @@ export const products: Product[] = [
       },
     ],
     displayImage: {
-      url: `/products/${passportIdWallet}/black/1.jpeg`,
+      url: `/products/${passportIdWallet}/thumbnail.jpg`,
       altText: 'front',
     },
     images: [
@@ -110,7 +110,7 @@ export const products: Product[] = [
         altText: 'holding brown wallet',
       },
       {
-        url: `/products/${passportIdWallet}/shared/1.jpeg`,
+        url: `/products/${passportIdWallet}/shared/2.jpeg`,
         altText: 'brown wallet in jacket',
       },
       {

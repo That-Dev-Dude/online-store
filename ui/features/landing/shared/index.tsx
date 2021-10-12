@@ -1,11 +1,13 @@
 import { FC } from 'react'
 import { styled, Grid } from '@mui/material'
+import shouldForwardProp from '@emotion/is-prop-valid'
+
 import { getMobileBreakpoint } from 'hooks'
 
 interface RootProps {
   isOffColor?: boolean
 }
-export const Root = styled('div')<RootProps>`
+export const Root = styled('div', { shouldForwardProp })<RootProps>`
   width: 100vw;
   background-color: ${({ theme: { palette }, isOffColor }) =>
     isOffColor ? palette.background.default : palette.background.paper};
@@ -34,7 +36,7 @@ export const Subtitle = styled('p')`
   color: ${({ theme: { palette } }) => palette.text.primary};
 `
 
-export const subRootSpacing = 6
+export const subRootSpacing = 3
 
 interface RowProps {
   isOffColor?: boolean

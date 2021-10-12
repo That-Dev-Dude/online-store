@@ -1,6 +1,6 @@
 import { DefaultSeoProps } from 'next-seo'
 
-export const tenantName = 'Buy My Stuff'
+export const tenantName = 'Fine Leather Goods'
 
 export const defaultSeo: DefaultSeoProps = {
   openGraph: {
