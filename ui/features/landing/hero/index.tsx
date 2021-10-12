@@ -10,17 +10,13 @@ const Hero: FC = () => {
   return (
     <HeroRoot backgroundUrl='home.jpg'>
       <div>
-        <Title>
-          Learn to code. Get Hired <br /> (Or 100% of your money back*)
-        </Title>
-        <Subtitle>
-          Launch your tech career from beginner to job-ready professional in 22 weeks or less.
-          <br />
-          *Read more <Link href={Routes.Refund}>about our refund process</Link>
-        </Subtitle>
-        <Link passHref href={Routes.Programs}>
-          <Button>Select a Program</Button>
-        </Link>
+        <Title>Fine Leather Goods</Title>
+        <Subtitle>Made from ethically sourced materials.</Subtitle>
+        <ActionContainer>
+          <Link passHref href={Routes.Home}>
+            <Button variant='outlined'>Shop Wallets</Button>
+          </Link>
+        </ActionContainer>
       </div>
     </HeroRoot>
   )
@@ -36,28 +32,41 @@ export const HeroRoot = styled('div', { shouldForwardProp: isPropValid })<HeroRo
   justify-content: center;
   align-items: center;
   padding-bottom: 2vh;
-  ${getMobileBreakpoint} {
-    padding: 0;
-    min-height: 40vh;
-    align-items: flex-end;
-    ${({
-      backgroundUrl,
-      theme: {
-        palette: { background },
-      },
-    }) =>
-      backgroundUrl
-        ? `
+  ${({
+    backgroundUrl,
+    theme: {
+      palette: { background },
+    },
+  }) =>
+    backgroundUrl
+      ? `
   background-image: linear-gradient(rgba(0, 0, 0, 0.4), ${background.paper}),
     url(${require('assets/images/hero/' + backgroundUrl)});
   background-size: cover;
   `
-        : ''}
+      : ''}
+  min-height: 70vh;
+  ${getMobileBreakpoint} {
+    padding: 0;
+    min-height: 40vh;
+    align-items: flex-end;
   }
 `
 
-const Title = styled('h1')``
+const ActionContainer = styled('div')`
+  display: flex;
+  justify-content: center;
+  margin-top: 5vh;
+`
+
+const Title = styled('h1')`
+  text-align: center;
+  margin: 0;
+`
 const Subtitle = styled('h2')`
+  margin: 0;
+  font-weight: normal;
+  text-align: center;
   font-size: 1.2em;
 `
 

@@ -2,7 +2,7 @@ import { serializeError } from 'serialize-error'
 import { GraphQLClient, ClientError } from 'graphql-request'
 import { Variables, GraphQLResponse } from 'graphql-request/dist/types'
 
-const uri = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT!
+const uri = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || 'http://localhost:5000/local/graphql'
 
 const client = new GraphQLClient(uri, { headers: { Authorization: '' } })
 
