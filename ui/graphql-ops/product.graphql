@@ -12,6 +12,7 @@ query Product($id: String!) {
         id
         option
         description
+        priceModifier
       }
       productType
     }

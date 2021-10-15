@@ -1,59 +1,77 @@
 import { FC, useState } from 'react'
-import { styled, Grid, Tooltip, Tab, IconButton } from '@mui/material'
-import { TabContext, TabList } from '@mui/lab'
+import { styled, Grid, Tooltip, Tab, IconButton, Tabs } from '@mui/material'
 import { Circle } from '@mui/icons-material'
 import shouldForwardProp from '@emotion/is-prop-valid'
+import { useRecoilState } from 'recoil'
+import { useRouter } from 'next/router'
 
 import { ProductQuery, ProductOption, ProductOptionType } from 'generated/index'
+import { optionsAtom } from 'store'
 
 export const OptionsSelect: FC<{ options: ProductOptions }> = ({ options }) => {
   return (
     <Grid container spacing={1}>
       {options?.map(option => {
         if (option.productType === ProductOptionType.Radio) {
-          return <RadioSelect key={option.id} options={option.options || []} name={option.name} />
+          return <RadioSelect key={option.id} {...option} />
         } else {
-          return <ColorSelect key={option.id} options={option.options || []} name={option.name} />
+          return <ColorSelect key={option.id} {...option} />
         }
       })}
     </Grid>
   )
 }
 
-const RadioSelect: FC<{ options: SpecificOptionChoices; name: string }> = ({ options = [], name }) => {
-  const [selectedOption, setSelectedOption] = useState(0)
-  const handleChange = (_: React.SyntheticEvent, newValue: number) => {
-    setSelectedOption(newValue)
+const useUpdateProductOptions = (optionId: string, options: ProductOption[]) => {
+  const router = useRouter()
+  const productId = router.query.id as string
+  const [allProductOptions, setOptions] = useRecoilState(optionsAtom)
+  const productOptions = allProductOptions[productId] || {}
+  const optionChoice = productOptions[optionId] || options[0]
+
+  const handleChange = (newId: string) => {
+    const chosenOption = options.find(({ id: targetOptionId }) => targetOptionId === newId)
+    if (!chosenOption) throw new Error('Cannot find designated option')
+    setOptions(currentOptions => ({
+      ...currentOptions,
+      [productId]: {
+        ...currentOptions[productId],
+        [optionId]: chosenOption,
+      },
+    }))
   }
+  return { handleChange, optionChoice }
+}
+
+interface OptionSelectProps {
+  options: SpecificOptionChoices
+  name: string
+  id: string
+}
+const RadioSelect: FC<OptionSelectProps> = ({ options = [], name, id }) => {
+  const { handleChange, optionChoice } = useUpdateProductOptions(id, options)
   return (
     <Grid item xs={12} sx={{ marginBottom: ({ spacing }) => spacing(3) }}>
       <div>{name}</div>
-      <TabContext value={selectedOption as unknown as string}>
-        <TabList onChange={handleChange}>
-          {options?.map(({ id, option, description }) => (
-            <Tooltip title={description || ''} key={id}>
-              <Tab label={option} />
-            </Tooltip>
-          ))}
-        </TabList>
-      </TabContext>
+      <Tabs value={optionChoice.id} onChange={(_, newId) => handleChange(newId)} aria-label='basic tabs example'>
+        {options?.map(({ id, option }) => (
+          <Tab label={option} value={id} key={id} />
+        ))}
+      </Tabs>
     </Grid>
   )
 }
 
-const ColorSelect: FC<{ options: SpecificOptionChoices; name: string }> = ({ options = [], name }) => {
-  const [selectedOption, setSelectedOption] = useState(0)
-  const handleChange = (newValue: number) => {
-    setSelectedOption(newValue)
-  }
+const ColorSelect: FC<OptionSelectProps> = ({ id, options = [], name }) => {
+  const { handleChange, optionChoice } = useUpdateProductOptions(id, options)
   return (
     <Grid item xs={12} sx={{ marginBottom: ({ spacing }) => spacing(3) }}>
       <div>{name}</div>
       <div>
-        {options?.map(({ id, option, description }, index) => (
+        {options?.map(({ id, option, description }) => (
           <Tooltip title={description || ''} key={id}>
-            <IconButton onClick={() => handleChange(index)}>
-              <ColorChoice isSelected={selectedOption === index} colorOption={option} />
+            <IconButton onClick={() => handleChange(id)}>
+              <ColorChoice isSelected={id === optionChoice.id} colorOption={option} />
             </IconButton>
           </Tooltip>
         ))}

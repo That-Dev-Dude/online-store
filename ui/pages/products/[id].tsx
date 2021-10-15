@@ -11,9 +11,11 @@ import SlideShow from 'components/slide-show'
 import { ProductImage as ProductImageBase, ProductImageProps } from 'features/products/components/QuickViewProduct'
 import { OptionsSelect } from 'features/products/components/OptionSelect'
 import Review from 'features/products/components/Review'
-import Description from 'features/products/components/Description'
+import { useShoppingCart } from 'hooks'
 
-const Product: FC<Props> = ({ product: { title, images, reviews, options, price, description } }) => {
+const Product: FC<Props> = ({ product }) => {
+  const { title, images, reviews, options, price, description } = product
+  const { addItemToCart } = useShoppingCart()
   const overallRating = calculateStarRating(reviews)
   return (
     <Layout noPadding title={title}>
@@ -31,7 +33,6 @@ const Product: FC<Props> = ({ product: { title, images, reviews, options, price,
           <NextLink href='/wallets'>
             <Link underline='hover'>Wallets</Link>
           </NextLink>
-          <Typography color='text.primary'>{title}</Typography>
         </Breadcrumbs>
         <h1 style={{ margin: 0 }}>{title}</h1>
         <a href='#reviews'>
@@ -45,6 +46,7 @@ const Product: FC<Props> = ({ product: { title, images, reviews, options, price,
         </div>
         <div>
           <Button
+            onClick={() => addItemToCart(product)}
             sx={{
               marginTop: ({ spacing }) => spacing(3),
               color: ({ palette }) => palette.background.default,
@@ -97,6 +99,10 @@ export const getStaticProps: GetStaticProps<Props> = async context => {
       product,
     },
   }
+}
+
+const useAddItemToCart = ({}: Props['product']) => {
+  
 }
 
 export default Product

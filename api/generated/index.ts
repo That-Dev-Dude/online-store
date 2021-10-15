@@ -43,6 +43,7 @@ export type ProductOption = {
   id: Scalars['String'];
   option: Scalars['String'];
   description?: Maybe<Scalars['String']>;
+  priceModifier?: Maybe<Scalars['Int']>;
 };
 
 export type ProductOptionGroup = {

@@ -2,6 +2,7 @@ import * as React from 'react'
 import Head from 'next/head'
 import { AppProps } from 'next/app'
 import { CacheProvider, EmotionCache } from '@emotion/react'
+import { RecoilRoot } from 'recoil'
 
 import createEmotionCache from '../utils/createEmotionCache'
 import Footer from 'components/footer'
@@ -26,7 +27,9 @@ export default function App(props: MyAppProps) {
       </Head>
       <WhichThemeProvider>
         <ThemeProvider>
-          <Component {...pageProps} />
+          <RecoilRoot>
+            <Component {...pageProps} />
+          </RecoilRoot>
           <Footer />
         </ThemeProvider>
       </WhichThemeProvider>

@@ -9,6 +9,7 @@ export const ProductSchema = `#graphql
     id: String!
     option: String!
     description: String
+    priceModifier: Int
   }
 
   type ProductOptionGroup {

@@ -24,6 +24,7 @@ export const products: Product[] = [
           {
             id: 'sport-leather',
             option: 'Sport Leather',
+            priceModifier: -40,
           },
         ],
         productType: ProductOptionType.Radio,
@@ -34,28 +35,33 @@ export const products: Product[] = [
         options: [
           {
             id: 'black',
-            option: 'black',
+            option: 'rgb(67,65,68)',
             description: 'Black',
+            priceModifier: 0,
           },
           {
-            id: 'brown',
+            id: 'cognac',
             option: '#A17056',
             description: 'Cognac',
+            priceModifier: 0,
           },
           {
-            id: 'blue',
-            option: 'blue',
+            id: 'cobalt',
+            option: 'rgb(65,86,124)',
             description: 'Cobalt',
+            priceModifier: 0,
           },
           {
             id: 'orange',
-            option: 'orange',
+            option: 'rgb(211,126,70)',
             description: 'FSHD Orange',
+            priceModifier: 0,
           },
           {
             id: 'red',
-            option: 'red',
+            option: 'rgb(170,66,61)',
             description: 'Red',
+            priceModifier: 0,
           },
         ],
         productType: ProductOptionType.Color,
@@ -67,10 +73,12 @@ export const products: Product[] = [
           {
             id: 'non-rfid',
             option: 'Non-RFID',
+            priceModifier: 0,
           },
           {
             id: 'rfid',
             option: 'RFID',
+            priceModifier: 15,
           },
         ],
         productType: ProductOptionType.Radio,
