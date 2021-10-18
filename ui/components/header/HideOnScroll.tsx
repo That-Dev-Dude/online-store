@@ -48,7 +48,7 @@ const HideAppBar: FC<Props> = ({ children }) => {
                   </ActiveLink> */}
                 </LeftGroup>
                 <Settings>
-                  <Link passHref href={Routes.Home}>
+                  <Link passHref href={Routes.Cart}>
                     <IconButton sx={{ marginRight: '30px', color: primary }} size='small'>
                       <ShoppingCart color='primary' />
                     </IconButton>
@@ -69,8 +69,8 @@ export const LogoTitle: FC<TitleProps> = props => (
   <Link href={Routes.Home}>
     <a>
       <LogoContainer>
-        <img src={logoSrc} height='32px' width='32px' alt='Online Store logo' />
-        <Title {...props}>Online Store</Title>
+        <img src={logoSrc} height='32px' width='32px' alt='Fine Leather Goods logo' />
+        <Title {...props}>Fine Leather Goods</Title>
       </LogoContainer>
     </a>
   </Link>

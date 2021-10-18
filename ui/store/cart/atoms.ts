@@ -3,18 +3,19 @@ import { atom } from 'recoil'
 import { Product, ProductImage } from 'generated/index'
 import { AtomKeys } from 'store/keys'
 
+export interface CartEntryOption {
+  id: string
+  name: string
+  option: string
+  priceModifier: number
+}
 export interface CartEntry {
   id: string
   product: {
     id: Product['id']
     title: Product['title']
     price: Product['price']
-    options: {
-      id: string
-      name: string
-      option: string
-      priceModifier: number
-    }[]
+    options: CartEntryOption[]
     displayImage: ProductImage
   }
   quantity: number

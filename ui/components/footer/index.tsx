@@ -13,7 +13,7 @@ const Footer: FC = () => {
       <Grid container item xs={12} md={9} justifyContent='center'>
         <Grid item xs={12} md={3} justifyContent='center'>
           <FooterTitle>Contact Us</FooterTitle>
-          <FooterSubtitle href='mailto:info@online-store.com'>info@online-store.com</FooterSubtitle>
+          <FooterSubtitle href='mailto:info@fineleathergoods.com'>info@fineleathergoods.com</FooterSubtitle>
           <FooterSubtitle href='sms:1234567890'>123-456-7890</FooterSubtitle>
         </Grid>
         {footerItems.map(({ title, children, root }) => (
@@ -48,11 +48,17 @@ const Footer: FC = () => {
             ) : null}
           </Grid>
         ))}
-        <Grid item xs={12} md={3} justifyContent='center' sx={{ display: 'flex', flexDirection: 'column' }}>
-          <img src={logoSrc} height='200px' width='230px' alt='Online Store logo' />
+        <Grid
+          item
+          xs={12}
+          md={3}
+          justifyContent='center'
+          sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        >
+          <img src={logoSrc} height='200px' width='230px' alt='Fine Leather Goods logo' />
           <SocialIcons />
         </Grid>
-        <Copyright>Copyright © {new Date().getFullYear()} Online Store.</Copyright>
+        <Copyright>Copyright © {new Date().getFullYear()} Fine Leather Goods.</Copyright>
       </Grid>
     </Container>
   )

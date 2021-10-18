@@ -29,7 +29,7 @@ export const MobileDrawer: FC = () => {
       <FlexContainer justify='space-between' width='100%'>
         <img src={logoSrc} height='32px' width='32px' alt='Glendale Chiropractic logo' />
         <div>
-          <Link passHref href={Routes.Home}>
+          <Link passHref href={Routes.Cart}>
             <IconButton sx={{ marginRight: '30px' }} size='small'>
               <Badge badgeContent={cartCount} color='primary'>
                 <ShoppingCart />

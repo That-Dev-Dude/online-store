@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useCallback } from 'react'
 import { styled, Grid, Tooltip, Tab, IconButton, Tabs } from '@mui/material'
 import { Circle } from '@mui/icons-material'
 import shouldForwardProp from '@emotion/is-prop-valid'
@@ -22,24 +22,33 @@ export const OptionsSelect: FC<{ options: ProductOptions }> = ({ options }) => {
   )
 }
 
-const useUpdateProductOptions = (optionId: string, options: ProductOption[]) => {
+const useUpdateProductOptions = (optionId: string, options: ProductOption[], isColorOption?: boolean) => {
   const router = useRouter()
   const productId = router.query.id as string
   const [allProductOptions, setOptions] = useRecoilState(optionsAtom)
   const productOptions = allProductOptions[productId] || {}
   const optionChoice = productOptions[optionId] || options[0]
 
-  const handleChange = (newId: string) => {
-    const chosenOption = options.find(({ id: targetOptionId }) => targetOptionId === newId)
-    if (!chosenOption) throw new Error('Cannot find designated option')
-    setOptions(currentOptions => ({
-      ...currentOptions,
-      [productId]: {
-        ...currentOptions[productId],
-        [optionId]: chosenOption,
-      },
-    }))
-  }
+  const handleChange = useCallback(
+    (newId: string) => {
+      const chosenOption = options.find(({ id: targetOptionId }) => targetOptionId === newId)
+      if (!chosenOption) throw new Error('Cannot find designated option')
+      setOptions(currentOptions => ({
+        ...currentOptions,
+        [productId]: {
+          ...currentOptions[productId],
+          [optionId]: {
+            ...chosenOption,
+            // Colors have the real value as the description, with the hex code as the option
+            // TODO: Reverse these so that the description is the hex code
+            option: isColorOption ? (chosenOption.description as string) : chosenOption.option,
+          },
+        },
+      }))
+    },
+    [isColorOption, optionId, options, productId, setOptions]
+  )
+
   return { handleChange, optionChoice }
 }
 
@@ -50,6 +59,11 @@ interface OptionSelectProps {
 }
 const RadioSelect: FC<OptionSelectProps> = ({ options = [], name, id }) => {
   const { handleChange, optionChoice } = useUpdateProductOptions(id, options)
+
+  useEffect(() => {
+    handleChange(options[0].id)
+  }, [handleChange, options])
+
   return (
     <Grid item xs={12} sx={{ marginBottom: ({ spacing }) => spacing(3) }}>
       <div>{name}</div>
@@ -63,7 +77,12 @@ const RadioSelect: FC<OptionSelectProps> = ({ options = [], name, id }) => {
 }
 
 const ColorSelect: FC<OptionSelectProps> = ({ id, options = [], name }) => {
-  const { handleChange, optionChoice } = useUpdateProductOptions(id, options)
+  const { handleChange, optionChoice } = useUpdateProductOptions(id, options, true)
+
+  useEffect(() => {
+    handleChange(options[0].id)
+  }, [handleChange, options])
+
   return (
     <Grid item xs={12} sx={{ marginBottom: ({ spacing }) => spacing(3) }}>
       <div>{name}</div>

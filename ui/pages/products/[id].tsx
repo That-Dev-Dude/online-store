@@ -1,9 +1,11 @@
 import { FC } from 'react'
 import { GetStaticProps, GetStaticPaths } from 'next'
-import { Rating, Breadcrumbs, Typography, Link, Button } from '@mui/material'
+import { Rating, Breadcrumbs, Link, Button } from '@mui/material'
 import NextLink from 'next/link'
+import { useRecoilValue } from 'recoil'
 
 import { runQuery } from 'client'
+import { optionsAtom, CartEntryOption } from 'store'
 import { ProductsDocument, ProductsQuery, ProductQuery, ProductDocument } from 'generated'
 import { Row } from 'components/container'
 import Layout from 'components/layout'
@@ -12,11 +14,48 @@ import { ProductImage as ProductImageBase, ProductImageProps } from 'features/pr
 import { OptionsSelect } from 'features/products/components/OptionSelect'
 import Review from 'features/products/components/Review'
 import { useShoppingCart } from 'hooks'
+import { Routes } from 'constants/routes'
 
 const Product: FC<Props> = ({ product }) => {
-  const { title, images, reviews, options, price, description } = product
+  const selectedItemOptions = useRecoilValue(optionsAtom)
+  const { id, title, images, reviews, options, price, description } = product
   const { addItemToCart } = useShoppingCart()
   const overallRating = calculateStarRating(reviews)
+
+  const productOptions = selectedItemOptions[product.id] || {}
+  const priceModifier = Object.values(productOptions).reduce(
+    (total, current) => total + (current?.priceModifier || 0),
+    0
+  )
+  const priceWithSelectedOptions = price + priceModifier
+
+  const handleAddToCart = () => {
+    const selectedOptions = Object.entries(selectedItemOptions?.[id]).reduce<CartEntryOption[]>(
+      (total, [optionId, selectedOption]) => {
+        // TODO: Eww - defaulting to option 1
+        const targetOption =
+          options?.find(({ id: allOptionId }) => allOptionId === optionId) || (options || [])[0] || {}
+        if (!targetOption?.name) throw new Error('Cannot find targeted option')
+        return [
+          ...total,
+          {
+            ...selectedOption,
+            priceModifier: selectedOption.priceModifier || 0,
+            name: targetOption?.name,
+          },
+        ]
+      },
+      []
+    )
+    addItemToCart({
+      id,
+      title,
+      price: priceWithSelectedOptions,
+      options: selectedOptions,
+      displayImage: product.displayImage,
+    })
+  }
+
   return (
     <Layout noPadding title={title}>
       <Row>
@@ -27,10 +66,10 @@ const Product: FC<Props> = ({ product }) => {
           RenderComponent={ProductImage}
         />
         <Breadcrumbs sx={{ marginBottom: theme => theme.spacing(3) }} aria-label='breadcrumb'>
-          <NextLink href='/'>
+          <NextLink href={Routes.Home}>
             <Link underline='hover'>Home</Link>
           </NextLink>
-          <NextLink href='/wallets'>
+          <NextLink href={Routes.Products}>
             <Link underline='hover'>Wallets</Link>
           </NextLink>
         </Breadcrumbs>
@@ -46,7 +85,7 @@ const Product: FC<Props> = ({ product }) => {
         </div>
         <div>
           <Button
-            onClick={() => addItemToCart(product)}
+            onClick={handleAddToCart}
             sx={{
               marginTop: ({ spacing }) => spacing(3),
               color: ({ palette }) => palette.background.default,
@@ -55,7 +94,7 @@ const Product: FC<Props> = ({ product }) => {
             fullWidth
             variant='contained'
           >
-            Add to Cart ( ${price} ){' '}
+            Add to Cart ( ${priceWithSelectedOptions} ){' '}
           </Button>
         </div>
       </Row>
@@ -92,17 +131,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 type Props = ProductQuery
 export const getStaticProps: GetStaticProps<Props> = async context => {
   const { id } = context.params || {}
-  if (!id) throw new Error('Cannot find ID of product')
+  if (!id || typeof id !== 'string') throw new Error('Cannot find ID of product')
   const { product } = await runQuery<ProductQuery, { id: string }>(ProductDocument, { id })()
   return {
     props: {
       product,
     },
   }
-}
-
-const useAddItemToCart = ({}: Props['product']) => {
-  
 }
 
 export default Product

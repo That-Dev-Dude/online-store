@@ -6,7 +6,6 @@ import { SocialWrapper, SocialLink } from './elements'
 
 const FacebookIcon = require('assets/svg/facebook.svg')
 const InstagramIcon = require('assets/svg/instagram.svg')
-const LinkedInIcon = require('assets/svg/linkedin-logo.svg')
 
 const SocialIcons: FC = () => {
   return (
@@ -17,9 +16,6 @@ const SocialIcons: FC = () => {
         </SocialLink>
         <SocialLink href={instagramLink} target='_blank' rel='noopener noreferrer'>
           <SocialWrapper height='40px' width='40px' src={InstagramIcon} alt='Icon link to Instagram page' />
-        </SocialLink>
-        <SocialLink href={instagramLink} target='_blank' rel='noopener noreferrer'>
-          <SocialWrapper height='40px' width='40px' src={LinkedInIcon} alt='Icon link to Instagram page' />
         </SocialLink>
       </FlexContainer>
     </FlexContainer>

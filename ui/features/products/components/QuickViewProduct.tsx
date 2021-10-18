@@ -1,17 +1,20 @@
 import { FC } from 'react'
 import { styled, Card, CardContent, CardHeader, Grid } from '@mui/material'
 import shouldForwardProp from '@emotion/is-prop-valid'
+import Link from 'next/link'
 
 import { ProductsQuery } from 'generated/index'
 
-export const QuickViewProduct: FC<ArrayElement<ProductsQuery['products']>> = ({ displayImage, title, price }) => {
+export const QuickViewProduct: FC<ArrayElement<ProductsQuery['products']>> = ({ id, displayImage, title, price }) => {
   return (
     <Grid item xs={6} md={3}>
-      <Card>
-        <Title>{title}</Title>
-        <Subtitle>{`From $${price} USD`}</Subtitle>
-        <ProductImage url={displayImage.url} />
-      </Card>
+      <Link passHref href={`/products/${id}`}>
+        <Card>
+          <Title>{title}</Title>
+          <Subtitle>{`From $${price} USD`}</Subtitle>
+          <ProductImage url={displayImage.url} />
+        </Card>
+      </Link>
     </Grid>
   )
 }

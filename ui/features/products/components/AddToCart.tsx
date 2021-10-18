@@ -16,8 +16,9 @@ const useAddItemToCart = ({ displayImage, title, id, price }: ProductQuery['prod
   const productOptions = allProductOptions[productId] || {}
 
   const options: CartEntry['product']['options'] = Object.entries(productOptions).map(([key, value]) => ({
+    ...value,
     id: key,
-    name: value.
+    priceModifier: value.priceModifier || 0,
   }))
 
   const cartEntry: CartEntry['product'] = {
