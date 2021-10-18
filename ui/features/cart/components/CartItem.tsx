@@ -14,11 +14,11 @@ export const CartItem: FC<CartEntry> = ({ id, product }) => {
     ''
   )
   return (
-    <Container container spacing={3}>
+    <Container item xs={12} container spacing={3}>
       <Grid item xs={3}>
-        <ProductImage url={product.displayImage.url} height='90px' width='90px' />
+        <ProductImage url={product.displayImage.url} height='75px' width='75px' />
       </Grid>
-      <Grid item xs={7}>
+      <Grid item xs={7} sx={{ paddingLeft: '10px' }}>
         <div>{product.title}</div>
         <Options>{optionsAsCommaSepString}</Options>
         <div>
@@ -44,5 +44,5 @@ const BrandColoredText = styled('span')`
 `
 
 const Container = styled(Grid)`
-  padding: 0 10px;
+  /* padding: 0 10px; */
 `

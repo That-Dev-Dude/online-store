@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { Rating, Breadcrumbs, Link, Button } from '@mui/material'
 import NextLink from 'next/link'
@@ -15,8 +15,10 @@ import { OptionsSelect } from 'features/products/components/OptionSelect'
 import Review from 'features/products/components/Review'
 import { useShoppingCart } from 'hooks'
 import { Routes } from 'constants/routes'
+import { Snackbar } from 'components/snackbar'
 
 const Product: FC<Props> = ({ product }) => {
+  const [isAddConfirmationShown, setIsAddConfirmationShown] = useState(false)
   const selectedItemOptions = useRecoilValue(optionsAtom)
   const { id, title, images, reviews, options, price, description } = product
   const { addItemToCart } = useShoppingCart()
@@ -54,59 +56,69 @@ const Product: FC<Props> = ({ product }) => {
       options: selectedOptions,
       displayImage: product.displayImage,
     })
+    setIsAddConfirmationShown(true)
   }
 
   return (
-    <Layout noPadding title={title}>
-      <Row>
-        <SlideShow<ProductImageProps>
-          slideInterval={Math.pow(9, 9)}
-          chunkLimit={1}
-          list={images}
-          RenderComponent={ProductImage}
-        />
-        <Breadcrumbs sx={{ marginBottom: theme => theme.spacing(3) }} aria-label='breadcrumb'>
-          <NextLink href={Routes.Home}>
-            <Link underline='hover'>Home</Link>
-          </NextLink>
-          <NextLink href={Routes.Products}>
-            <Link underline='hover'>Wallets</Link>
-          </NextLink>
-        </Breadcrumbs>
-        <h1 style={{ margin: 0 }}>{title}</h1>
-        <a href='#reviews'>
-          <div style={{ marginBottom: '30px', display: 'flex', alignItems: 'center' }}>
-            <Rating value={overallRating} readOnly />
-            <div style={{ padding: '3px 0 0 10px' }}>{reviews.length} Reviews</div>
+    <>
+      <Layout noPadding title={title}>
+        <Row>
+          <SlideShow<ProductImageProps>
+            slideInterval={Math.pow(9, 9)}
+            chunkLimit={1}
+            list={images}
+            RenderComponent={ProductImage}
+          />
+          <Breadcrumbs sx={{ marginBottom: theme => theme.spacing(3) }} aria-label='breadcrumb'>
+            <NextLink href={Routes.Home}>
+              <Link underline='hover'>Home</Link>
+            </NextLink>
+            <NextLink href={Routes.Products}>
+              <Link underline='hover'>Wallets</Link>
+            </NextLink>
+          </Breadcrumbs>
+          <h1 style={{ margin: 0 }}>{title}</h1>
+          <a href='#reviews'>
+            <div style={{ marginBottom: '30px', display: 'flex', alignItems: 'center' }}>
+              <Rating value={overallRating} readOnly />
+              <div style={{ padding: '3px 0 0 10px' }}>{reviews.length} Reviews</div>
+            </div>
+          </a>
+          <div>
+            <OptionsSelect options={options} />
           </div>
-        </a>
-        <div>
-          <OptionsSelect options={options} />
-        </div>
-        <div>
-          <Button
-            onClick={handleAddToCart}
-            sx={{
-              marginTop: ({ spacing }) => spacing(3),
-              color: ({ palette }) => palette.background.default,
-              fontWeight: 700,
-            }}
-            fullWidth
-            variant='contained'
-          >
-            Add to Cart ( ${priceWithSelectedOptions} ){' '}
-          </Button>
-        </div>
-      </Row>
-      <Row isOffColor title='Description'>
-        {description}
-      </Row>
-      <Row title='Reviews' id='reviews'>
-        {reviews.map(review => (
-          <Review key={review.id} {...review} />
-        ))}
-      </Row>
-    </Layout>
+          <div>
+            <Button
+              onClick={handleAddToCart}
+              sx={{
+                marginTop: ({ spacing }) => spacing(3),
+                color: ({ palette }) => palette.background.default,
+                fontWeight: 700,
+              }}
+              fullWidth
+              variant='contained'
+            >
+              Add to Cart ( ${priceWithSelectedOptions} ){' '}
+            </Button>
+          </div>
+        </Row>
+        <Row isOffColor title='Description'>
+          {description}
+        </Row>
+        <Row title='Reviews' id='reviews'>
+          {reviews.map(review => (
+            <Review key={review.id} {...review} />
+          ))}
+        </Row>
+      </Layout>
+      <Snackbar
+        isOpen={isAddConfirmationShown}
+        setIsOpen={setIsAddConfirmationShown}
+        severity='success'
+        message='Added!'
+        autoHideDuration={4000}
+      />
+    </>
   )
 }
 

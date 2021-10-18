@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Button, Grid } from '@mui/material'
+import { Button, Grid, styled } from '@mui/material'
 import Link from 'next/link'
 
 import Layout from 'components/layout'
@@ -55,14 +55,24 @@ const Summary: FC<SummaryProps> = ({ isEmpty, subTotal }) => {
           ${subTotal}
         </Grid>
       </Grid>
-      <p style={{ textAlign: 'center' }}>Free shipping and returns within the U.S.</p>
-      <Button sx={{ color: 'black', fontWeight: 'bolder' }} fullWidth variant='contained'>
-        Checkout
-      </Button>
-      <p style={{ textAlign: 'center' }}>Or checkout with</p>
+      <CenteredText>Free shipping and returns within the U.S.</CenteredText>
+      <Link href={Routes.Checkout} passHref>
+        <CheckoutButton fullWidth variant='contained'>
+          Checkout
+        </CheckoutButton>
+      </Link>
+      <CenteredText>Or checkout with</CenteredText>
       <PaymentOptions />
     </Row>
   )
 }
+
+const CheckoutButton = styled(Button)`
+  color: black !important;
+  font-weight: bolder;
+`
+const CenteredText = styled('p')`
+  text-align: center;
+`
 
 export default Cart

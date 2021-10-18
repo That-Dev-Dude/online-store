@@ -74,46 +74,36 @@ const footerItems: RootFooterItem[] = [
         title: 'Home',
         goesToPath: Routes.Home,
       },
+      {
+        title: 'Products',
+        goesToPath: Routes.Products,
+      },
     ],
   },
   {
-    title: 'Community',
+    title: 'Legal',
     children: [
       {
-        title: 'Alumni',
-        goesToPath: '/slack',
+        title: 'Privacy',
+        goesToPath: 'https://github.com',
         isExternal: true,
       },
       {
-        title: 'Blog',
-        goesToPath: '/blog',
+        title: 'Terms',
+        goesToPath: 'https://slack.com',
+        isExternal: true,
+      },
+      {
+        title: 'Data Policy',
+        goesToPath: 'https://slack.com',
+        isExternal: true,
+      },
+      {
+        title: 'Cookie Policy',
+        goesToPath: 'https://slack.com',
+        isExternal: true,
       },
     ],
-    root: {
-      title: 'Legal',
-      children: [
-        {
-          title: 'Privacy',
-          goesToPath: 'https://github.com',
-          isExternal: true,
-        },
-        {
-          title: 'Terms',
-          goesToPath: 'https://slack.com',
-          isExternal: true,
-        },
-        {
-          title: 'Data Policy',
-          goesToPath: 'https://slack.com',
-          isExternal: true,
-        },
-        {
-          title: 'Cookie Policy',
-          goesToPath: 'https://slack.com',
-          isExternal: true,
-        },
-      ],
-    },
   },
 ]
 
