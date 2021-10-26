@@ -16,9 +16,6 @@ const Products: FC<Props> = ({ products }) => {
           {products.map(product => (
             <QuickViewProduct {...product} key={product.id} />
           ))}
-          {products.map(product => (
-            <QuickViewProduct {...product} key={product.id} />
-          ))}
         </Grid>
       </Row>
     </Layout>

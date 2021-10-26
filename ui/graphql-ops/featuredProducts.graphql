@@ -1,0 +1,12 @@
+query FeaturedProducts {
+  featuredProducts {
+    id
+    title
+    price
+    shortDescription
+    displayImage {
+      url
+      altText
+    }
+  }
+}

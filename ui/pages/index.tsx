@@ -4,24 +4,20 @@ import dynamic from 'next/dynamic'
 import { Grid } from '@mui/material'
 
 import Layout from 'components/layout'
-// import { Routes } from 'constants/routes'
 import { Row } from 'components/container'
 import { runQuery } from 'client'
-import { ProductsQuery, ProductsDocument } from 'generated'
+import { FeaturedProductsQuery, FeaturedProductsDocument } from 'generated'
 import { QuickViewProduct } from 'features/products'
 
 const Hero = dynamic(() => import('features/landing/hero'))
 
-const Landing: FC<Props> = ({ products }) => {
+const Landing: FC<Props> = ({ featuredProducts }) => {
   return (
     <Layout noPadding>
       <Hero />
       <Row title='Featured Products'>
         <Grid container spacing={1}>
-          {products.map(product => (
-            <QuickViewProduct {...product} key={product.id} />
-          ))}
-          {products.map(product => (
+          {featuredProducts.map(product => (
             <QuickViewProduct {...product} key={product.id} />
           ))}
         </Grid>
@@ -30,12 +26,12 @@ const Landing: FC<Props> = ({ products }) => {
   )
 }
 
-type Props = ProductsQuery
-export const getStaticProps: GetStaticProps<ProductsQuery> = async () => {
-  const { products } = await runQuery<ProductsQuery>(ProductsDocument)()
+type Props = FeaturedProductsQuery
+export const getStaticProps: GetStaticProps<FeaturedProductsQuery> = async () => {
+  const { featuredProducts } = await runQuery<FeaturedProductsQuery>(FeaturedProductsDocument)()
   return {
     props: {
-      products,
+      featuredProducts,
     },
   }
 }

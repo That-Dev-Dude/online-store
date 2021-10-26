@@ -13,3 +13,5 @@ export const Product: FC<IProduct> = ({ displayImage, title, price }) => {
     </Card>
   )
 }
+
+// <img src={require(`assets/images/products/${id}`)} alt={displayImage.altText} />

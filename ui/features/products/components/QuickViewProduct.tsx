@@ -25,7 +25,7 @@ export interface ProductImageProps {
   width?: string
 }
 export const ProductImage = styled('div', { shouldForwardProp })<ProductImageProps>`
-  background-image: url(${({ url }) => require('assets/images' + url)});
+  background-image: url(${({ url }) => require('assets/images/products' + url)});
   background-size: cover;
   height: ${({ height = '200px' }) => height};
   width: ${({ width = '100%;' }) => width};

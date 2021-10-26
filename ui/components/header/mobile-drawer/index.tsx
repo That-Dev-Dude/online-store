@@ -2,10 +2,10 @@ import { FC, useRef, useState } from 'react'
 import { Badge, styled, IconButton, Drawer as MuiDrawer, List, ListItemText, ListItem, Box } from '@mui/material'
 import { Menu } from '@mui/icons-material'
 import { useOutsideClick } from '@caldwell619/react-hooks'
-
-import { Routes } from 'constants/routes'
 import { ShoppingCart } from '@mui/icons-material'
 import Link from 'next/link'
+
+import { Routes } from 'constants/routes'
 import { FlexContainer } from 'components/container'
 import DarkModeToggle from '../DarkModeToggle'
 import SocialIcons from 'components/footer/social'
@@ -44,25 +44,40 @@ export const MobileDrawer: FC = () => {
       <Drawer ref={ref} variant='persistent' anchor='right' open={isDrawerOpen}>
         <Box>
           <List>
-            <ListItem>
-              <ListItemText>Home</ListItemText>
-            </ListItem>
-            <ListItem>
-              <ListItemText>About</ListItemText>
-            </ListItem>
-            <ListItem>
-              <ListItemText>FAQ</ListItemText>
-            </ListItem>
+            <Link href={Routes.Home} passHref>
+              <ListItem>
+                <ListItemText>Home</ListItemText>
+              </ListItem>
+            </Link>
+            <Link href={Routes.Products} passHref>
+              <ListItem>
+                <ListItemText>Products</ListItemText>
+              </ListItem>
+            </Link>
             <ListItem>
               <DarkModeToggle />
             </ListItem>
           </List>
           <SocialIcons />
+          <Disclaimer />
         </Box>
       </Drawer>
     </>
   )
 }
+
+export const Disclaimer: FC = () => (
+  <Box sx={{ padding: '0 10px' }}>
+    <h3>Disclaimer:</h3>
+    <p style={{ fontSize: '0.8em' }}>
+      This is not a real website in which goods can be purchased. This is strictly a practice website for a coding
+      challenge.
+    </p>
+    <p style={{ fontSize: '0.8em' }}>
+      <strong>I do not own</strong> any of the rights to these images, products, or product options
+    </p>
+  </Box>
+)
 
 const Drawer = styled(MuiDrawer)(({ theme }) => ({
   ...theme.mixins.toolbar,

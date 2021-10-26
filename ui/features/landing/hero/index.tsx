@@ -13,8 +13,8 @@ const Hero: FC = () => {
         <Title>Fine Leather Goods</Title>
         <Subtitle>Made from ethically sourced materials.</Subtitle>
         <ActionContainer>
-          <Link passHref href={Routes.Home}>
-            <Button variant='outlined'>Shop Wallets</Button>
+          <Link passHref href={Routes.Products}>
+            <Button variant='outlined'>Shop</Button>
           </Link>
         </ActionContainer>
       </div>

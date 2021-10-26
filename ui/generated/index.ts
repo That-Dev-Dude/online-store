@@ -60,6 +60,7 @@ export type Query = {
   reviews: Array<Review>;
   product: Product;
   products: Array<Product>;
+  featuredProducts: Array<Product>;
 };
 
 
@@ -83,6 +84,14 @@ export type Review = {
   stars: Scalars['Int'];
 };
 
+export type FeaturedProductsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FeaturedProductsQuery = { featuredProducts: Array<(
+    Pick<Product, 'id' | 'title' | 'price' | 'shortDescription'>
+    & { displayImage: Pick<ProductImage, 'url' | 'altText'> }
+  )> };
+
 export type ProductQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -104,6 +113,34 @@ export type ProductsQuery = { products: Array<(
     & { displayImage: Pick<ProductImage, 'url' | 'altText'> }
   )> };
 
+
+export const FeaturedProductsDocument = `
+    query FeaturedProducts {
+  featuredProducts {
+    id
+    title
+    price
+    shortDescription
+    displayImage {
+      url
+      altText
+    }
+  }
+}
+    `;
+export const useFeaturedProductsQuery = <
+      TData = FeaturedProductsQuery,
+      TError = unknown
+    >(
+      variables?: FeaturedProductsQueryVariables, 
+      options?: UseQueryOptions<FeaturedProductsQuery, TError, TData>
+    ) => 
+    useQuery<FeaturedProductsQuery, TError, TData>(
+      ['FeaturedProducts', variables],
+      runQuery<FeaturedProductsQuery, FeaturedProductsQueryVariables>(FeaturedProductsDocument, variables),
+      options
+    );
+useFeaturedProductsQuery.getKey = (variables?: FeaturedProductsQueryVariables) => ['FeaturedProducts', variables];
 
 export const ProductDocument = `
     query Product($id: String!) {

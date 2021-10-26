@@ -41,4 +41,5 @@ export const ProductQueries = `#graphql
 product(id: String!): Product!
 # TODO: Add filters
 products: [Product!]!
+featuredProducts: [Product!]!
 `

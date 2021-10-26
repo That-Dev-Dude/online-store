@@ -5,6 +5,7 @@ import LaunchIcon from '@mui/icons-material/Launch'
 import { Routes } from 'constants/routes'
 import { Container, FooterSubtitle, FooterTitle, Copyright } from './elements'
 import SocialIcons from './social'
+import { Disclaimer } from 'components/header/mobile-drawer'
 
 const logoSrc = require('assets/images/logo.png')
 const Footer: FC = () => {
@@ -59,6 +60,7 @@ const Footer: FC = () => {
           <SocialIcons />
         </Grid>
         <Copyright>Copyright © {new Date().getFullYear()} Fine Leather Goods.</Copyright>
+        <Disclaimer />
       </Grid>
     </Container>
   )

@@ -6,7 +6,7 @@ import { useRecoilValue } from 'recoil'
 
 import { runQuery } from 'client'
 import { optionsAtom, CartEntryOption } from 'store'
-import { ProductsDocument, ProductsQuery, ProductQuery, ProductDocument } from 'generated'
+import { ProductsDocument, ProductsQuery, ProductQuery, ProductDocument, Review as IReview } from 'generated'
 import { Row } from 'components/container'
 import Layout from 'components/layout'
 import SlideShow from 'components/slide-show'
@@ -69,38 +69,10 @@ const Product: FC<Props> = ({ product }) => {
             list={images}
             RenderComponent={ProductImage}
           />
-          <Breadcrumbs sx={{ marginBottom: theme => theme.spacing(3) }} aria-label='breadcrumb'>
-            <NextLink href={Routes.Home}>
-              <Link underline='hover'>Home</Link>
-            </NextLink>
-            <NextLink href={Routes.Products}>
-              <Link underline='hover'>Wallets</Link>
-            </NextLink>
-          </Breadcrumbs>
-          <h1 style={{ margin: 0 }}>{title}</h1>
-          <a href='#reviews'>
-            <div style={{ marginBottom: '30px', display: 'flex', alignItems: 'center' }}>
-              <Rating value={overallRating} readOnly />
-              <div style={{ padding: '3px 0 0 10px' }}>{reviews.length} Reviews</div>
-            </div>
-          </a>
-          <div>
-            <OptionsSelect options={options} />
-          </div>
-          <div>
-            <Button
-              onClick={handleAddToCart}
-              sx={{
-                marginTop: ({ spacing }) => spacing(3),
-                color: ({ palette }) => palette.background.default,
-                fontWeight: 700,
-              }}
-              fullWidth
-              variant='contained'
-            >
-              Add to Cart ( ${priceWithSelectedOptions} ){' '}
-            </Button>
-          </div>
+          <ProductBreadcrumbs />
+          <ProductBillboard overallRating={overallRating} reviews={reviews} title={title} />
+          <OptionsSelect options={options} />
+          <AddToCartButton handleAddToCart={handleAddToCart} priceWithSelectedOptions={priceWithSelectedOptions} />
         </Row>
         <Row isOffColor title='Description'>
           {description}
@@ -139,6 +111,55 @@ export const getStaticPaths: GetStaticPaths = async () => {
     fallback: false,
   }
 }
+
+const ProductBreadcrumbs: FC = () => (
+  <Breadcrumbs sx={{ marginBottom: theme => theme.spacing(3) }} aria-label='breadcrumb'>
+    <NextLink href={Routes.Home}>
+      <Link underline='hover'>Home</Link>
+    </NextLink>
+    <NextLink href={Routes.Products}>
+      <Link underline='hover'>Products</Link>
+    </NextLink>
+  </Breadcrumbs>
+)
+
+interface ProductBillboardProps {
+  title: string
+  overallRating: number
+  reviews: IReview[]
+}
+const ProductBillboard: FC<ProductBillboardProps> = ({ title, overallRating, reviews }) => (
+  <>
+    <h1 style={{ margin: 0 }}>{title}</h1>
+    <a href='#reviews'>
+      <div style={{ marginBottom: '30px', display: 'flex', alignItems: 'center' }}>
+        <Rating value={overallRating} readOnly />
+        <div style={{ padding: '3px 0 0 10px' }}>
+          {reviews.length} Review{reviews.length === 1 ? '' : 's'}
+        </div>
+      </div>
+    </a>
+  </>
+)
+
+interface AddToCartButtonProps {
+  handleAddToCart: () => void
+  priceWithSelectedOptions: number
+}
+const AddToCartButton: FC<AddToCartButtonProps> = ({ handleAddToCart, priceWithSelectedOptions }) => (
+  <Button
+    onClick={handleAddToCart}
+    sx={{
+      marginTop: ({ spacing }) => spacing(3),
+      color: ({ palette }) => palette.background.default,
+      fontWeight: 700,
+    }}
+    fullWidth
+    variant='contained'
+  >
+    Add to Cart ( ${priceWithSelectedOptions} ){' '}
+  </Button>
+)
 
 type Props = ProductQuery
 export const getStaticProps: GetStaticProps<Props> = async context => {

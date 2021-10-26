@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import { Collapse, FormGroup, FormControlLabel, Switch } from '@mui/material'
+import { Button, Collapse, FormGroup, FormControlLabel, Switch } from '@mui/material'
 
 import Layout from 'components/layout'
 import { Row } from 'components/container'
@@ -21,6 +21,9 @@ const Checkout: FC = () => {
         <Collapse in={!isBillingSameAsShipping}>
           <AddressInput isBilling />
         </Collapse>
+        <Button sx={{ marginTop: '5%' }} variant='contained' fullWidth>
+          Checkout
+        </Button>
       </Row>
     </Layout>
   )

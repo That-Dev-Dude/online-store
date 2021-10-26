@@ -18,15 +18,33 @@ const Container = styled('div', { shouldForwardProp })<ContainerProps>`
   border-radius: 5px;
   display: flex;
   justify-content: center;
+  align-items: center;
   margin: ${({ theme: { spacing } }) => spacing(2)} 0;
+  height: 45px;
 `
 
 export default PaymentOption
 
-const ShopPay: FC = () => <PaymentOption buttonColor='#5a31f4'>Shop Pay</PaymentOption>
-const AmazonPay: FC = () => <PaymentOption buttonColor='#fad676'>Amazon Pay</PaymentOption>
-const PayPal: FC = () => <PaymentOption buttonColor='rgb(240,194,73)'>PayPal</PaymentOption>
-const GooglePay: FC = () => <PaymentOption buttonColor='black'>Google Pay</PaymentOption>
+const ShopPay: FC = () => (
+  <PaymentOption buttonColor='#5a31f4'>
+    <img src={require('assets/svg/shop-pay.svg')} height='20px' alt='shop pay logo' />
+  </PaymentOption>
+)
+const AmazonPay: FC = () => (
+  <PaymentOption buttonColor='#fad676'>
+    <img src={require('assets/svg/Amazon_Pay-Logo.svg')} height='75px' alt='amazon pay logo' />
+  </PaymentOption>
+)
+const PayPal: FC = () => (
+  <PaymentOption buttonColor='rgb(240,194,73)'>
+    <img src={require('assets/svg/PayPal.svg')} height='20px' alt='google pay logo' />
+  </PaymentOption>
+)
+const GooglePay: FC = () => (
+  <PaymentOption buttonColor='black'>
+    <img src={require('assets/svg/google-pay.png')} height='20px' alt='google pay logo' />
+  </PaymentOption>
+)
 
 export const PaymentOptions: FC = () => (
   <>
