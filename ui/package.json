@@ -7,9 +7,9 @@
     "type-check": "tsc --noEmit",
     "graphql:codegen": "graphql-codegen --config codegen.yml",
     "lint": "next lint",
-    "dev": "next dev",
+    "dev": ". .env.local && next dev",
     "build": "next build && next export",
-    "deploy": ". .env && sh scripts/deploy.sh"
+    "deploy": ". .env.local && sh scripts/deploy.sh"
   },
   "dependencies": {
     "@caldwell619/react-hooks": "^0.0.7",
