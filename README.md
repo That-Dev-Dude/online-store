@@ -5,7 +5,9 @@ Challenge to create an e-commerce online store for Devs United heavily influence
 ## Demo
 
 - [Screenshots](./screenshots/README.md)
-- [Demo]()
+- [Demo](https://online-store.christopher-caldwell.net)
+
+While using the demo, refreshing the page will return 403. I have to setup edge workers to get this to work, and they cost a small amount of $. So if you get an unauthorized screen, just go back to the root URL.
 
 ## Caveats
 
@@ -17,6 +19,29 @@ This took **a lot** of time. I ran out of time, and still don't have the bandwid
 
 ## Setup
 
+### API
+
+Begin by installing the UI and API dependencies.
+
+```shell
+cd ui
+yarn
+cd ../api
+yarn install-dependencies
+cd ..
+```
+
+Next step is copying the env, to a new `.env.local`. THe values here are not really important, as this is not being deployed.
+
+```shell
+# From root
+cp api/env/.env.example api/env/.env.local
+```
+
+You may need dummy AWS credentials for this to work, see [this guide](https://www.serverless.com/framework/docs/getting-started) for a better explanation.
+
+### UI
+
 For convenience, a one command script has been added to the root in order to run the project.
 
 ```shell
@@ -25,8 +50,6 @@ yarn start
 ```
 
 This will begin the local API as well as the UI dev servers.
-
-You may need dummy AWS credentials for this to work, see [this guide](https://www.serverless.com/framework/docs/getting-started) for a better explanation.
 
 ## Stack
 
